@@ -1,0 +1,84 @@
+*,
+html,
+body {
+  font-family: "Estedad";
+  box-sizing: border-box;
+  direction: rtl;
+}
+:root {
+  --primary: #a62626;
+}
+body {
+  background-color: #f5f5f5;
+}
+a,
+a:hover {
+  text-decoration: none;
+}
+a:hover {
+  color: var(--primary) !important;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.h-0{
+  height: 0px;
+  overflow: hidden;
+}
+.pointer{
+  cursor: pointer;
+}
+.h-80{
+  height: 80px;
+}
+.rotate-icon{
+  transform: rotate(180deg);
+}
+.transition{
+  transition: all 0.3s ease-in-out;
+}
+.form-control:focus {
+  box-shadow: none;
+  border-color: #ced4da;
+}
+
+.color-primary {
+  color: var(--primary);
+}
+.bg-primary {
+  background-color: var(--primary);
+}
+.btn-primary {
+  background-color: var(--primary);
+  color: #ffffff;
+}
+.btn:active{
+  border-color: transparent !important;
+}
+.post{
+  overflow: hidden;
+}
+.post:hover{
+  border-color: var(--primary) !important;
+}
+.post:hover .card-title{
+  color: var(--primary);
+}
+.post .buttons{
+  transform: translateX(-150%);
+  transition: all 0.2s ease-in-out;
+}
+.post:hover .buttons{
+  transform: translateX(0%);
+}
+.page-link:hover , .page-link:focus{
+  border-color: var(--primary);
+  background-color: transparent;
+  box-shadow: none;
+  color: var(--primary) !important;
+}
+.page-link.disabled, .disabled > .page-link{
+  background-color : #dee2e6;
+}
