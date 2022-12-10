@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import LoginInput from "../components/shared/LoginInput";
 import validateForm from "../helper/validateForm";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ButtonPrimary from "../components/shared/ButtonPrimary";
 import { register } from "../services/authentication";
 import Spinner from "../components/shared/Spinner";
+import Toast from "../helper/toast";
 
 const Register = () => {
+  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const [showConfirmPass, setShowConfirmPass] = useState(false);
   const [clickButton, setClickButton] = useState(false);
@@ -31,14 +32,42 @@ const Register = () => {
   useEffect(() => {
     const request = async () => {
       if (!Object.values(validate).includes(false) && clickButton) {
-        await register(registerInfo);
+        const newUser = await register(registerInfo);
+        if (newUser.code === "200") {
+          navigate("/dashboard", { replace: true });
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ userId: newUser.id, token: newUser.token })
+          );
+          Toast.fire({
+            icon: "success",
+            title: "ثبت نام با موفقیت انجام شد",
+          });
+          setRegisterInfo({
+            license: "",
+            name: "",
+            nationalCode: "",
+            password: "",
+            confirmPassword: "",
+          });
+        } else if (newUser.code === "402") {
+          Toast.fire({
+            icon: "info",
+            title: "شما حساب کاربری دارید!",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "ثبت نام با خطا مواجه شد!",
+          });
+        }
       }
       setLoading(false);
     };
     request();
   }, [validate]);
 
-  const clickHandler = () => {
+  const clickHandler = async () => {
     setLoading(true);
     setValidate(validateForm("register", registerInfo));
     setClickButton(true);
@@ -60,7 +89,7 @@ const Register = () => {
         ثبت نام
       </div>
       <div className="card-body">
-        <form autoComplete="off">
+        <form autoComplete="on">
           <LoginInput
             type="text"
             label="شناسه صنفی خود را وارد کنید"
@@ -135,7 +164,7 @@ const Register = () => {
         <div>
           <small>
             حساب کاربری دارید؟
-            <Link to="/login" className="color-primary fw-bold">
+            <Link to="/login" className="color-primary fw-bold me-1">
               ورود
             </Link>
           </small>

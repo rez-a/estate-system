@@ -82,3 +82,49 @@ ul {
 .page-link.disabled, .disabled > .page-link{
   background-color : #dee2e6;
 }
+.post-title{
+  line-height: 1.5;
+}
+.details-row .details .title , .details-column .details .title{
+  color: #999999;
+}
+
+.loading-skeleton h1,
+.loading-skeleton h2,
+.loading-skeleton h3,
+.loading-skeleton h4,
+.loading-skeleton h5,
+.loading-skeleton h6,
+.loading-skeleton p,
+.loading-skeleton span,
+.loading-skeleton small,
+.loading-skeleton li,
+.loading-skeleton button,
+.loading-skeleton label,
+.loading-skeleton input {
+  color: #eee !important;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #eee !important;
+  border-color: #eee !important;
+}
+
+@keyframes loading-skeleton {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.loading-skeleton {
+  pointer-events: none;
+  animation: loading-skeleton 1s infinite alternate;
+}
+.loading-skeleton img {
+  filter: grayscale(100) contrast(0%) brightness(1.8);
+}
+.loading-style{
+  width: 100px;
+  height: 20px;
+}

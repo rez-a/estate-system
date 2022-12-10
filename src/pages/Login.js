@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import LoginInput from "../components/shared/LoginInput";
 import validateForm from "../helper/validateForm";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
+import Toast from "../helper/toast";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import ButtonPrimary from "../components/shared/ButtonPrimary";
 import { login } from "../services/authentication";
+import Spinner from "../components/shared/Spinner";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
+  const [clickButton, setClickButton] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [loginInfo, setLoginInfo] = useState({
     license: "",
     password: "",
@@ -19,10 +23,40 @@ const Login = () => {
   });
 
   useEffect(() => {
-    if (!Object.values(validate).includes(false)) {
-      login(loginInfo);
-    }
+    const request = async () => {
+      if (!Object.values(validate).includes(false) && clickButton) {
+        const user = await login(loginInfo);
+        if (user.code === "200") {
+          navigate("/dashboard", { replace: true });
+          localStorage.setItem(
+            "user",
+            JSON.stringify({ userId: user.id, token: user.token })
+          );
+          Toast.fire({
+            icon: "success",
+            title: "شما با موفقیت وارد حساب کاربری شدید",
+          });
+          setLoginInfo({
+            license: "",
+            password: "",
+          });
+        } else if (user.code === "402") {
+          Toast.fire({
+            icon: "error",
+            title: "شماره صنفی یا رمز عبور اشتباه است",
+          });
+        }
+      }
+      setLoading(false);
+    };
+    request();
   }, [validate]);
+
+  const clickHandler = () => {
+    setLoading(true);
+    setValidate(validateForm("login", loginInfo));
+    setClickButton(true);
+  };
 
   return (
     <div
@@ -73,7 +107,7 @@ const Login = () => {
         <div>
           <small>
             حساب کاربری ندارید؟
-            <Link to="/register" className="color-primary fw-bold">
+            <Link to="/register" className="color-primary fw-bold me-1">
               ثبت نام
             </Link>
           </small>
@@ -82,7 +116,8 @@ const Login = () => {
       <div className="card-footer bg-white text-start">
         <ButtonPrimary
           text="ورود"
-          onClickHandler={() => setValidate(validateForm("login", loginInfo))}
+          onClickHandler={clickHandler}
+          spinner={loading ? <Spinner /> : ""}
         />
       </div>
     </div>
