@@ -73,15 +73,28 @@ ul {
 .post:hover .buttons{
   transform: translateX(0%);
 }
-.page-link:hover , .page-link:focus{
+.page-link:hover  , .page-link.active{
   border-color: var(--primary);
   background-color: transparent;
   box-shadow: none;
   color: var(--primary) !important;
 }
+.page-link:focus{
+  box-shadow: none;
+}
 .page-link.disabled, .disabled > .page-link{
   background-color : #dee2e6;
 }
+.page-item{
+  cursor: pointer;
+}
+.page-item.disabled{
+  cursor: auto;
+}
+.page-item .page-link.active{
+  cursor: auto;
+}
+
 .post-title{
   line-height: 1.5;
 }
@@ -101,7 +114,8 @@ ul {
 .loading-skeleton li,
 .loading-skeleton button,
 .loading-skeleton label,
-.loading-skeleton input {
+.loading-skeleton input,
+.loading-skeleton pre {
   color: #eee !important;
   appearance: none;
   -webkit-appearance: none;
@@ -127,4 +141,22 @@ ul {
 .loading-style{
   width: 100px;
   height: 20px;
+}
+.category.active{
+  color: var(--primary) !important;
+}
+.filterUsed{
+  border-color: var(--primary) !important;
+}
+.deleteFilter{
+  cursor: pointer;
+}
+.btn-remove-search{
+  display: none;
+}
+form.search:hover .btn-remove-search{
+  display: block;
+}
+.loading-title-post{
+  height: 10%;
 }

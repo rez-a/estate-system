@@ -6,7 +6,15 @@ import {
 } from "react-headless-accordion";
 import { FaAngleDown } from "react-icons/fa";
 
-const FilterItem = ({ category, min, max }) => {
+const FilterItem = ({
+  category,
+  min,
+  max,
+  valueInputMin,
+  valueInputMax,
+  setValueInputMin,
+  setValueInputMax,
+}) => {
   const [showFilter, setShowFilter] = useState(false);
   return (
     <AccordionItem>
@@ -34,6 +42,8 @@ const FilterItem = ({ category, min, max }) => {
                 style={{ fontSize: "12px" }}
                 className="form-control form-control-sm"
                 placeholder={`مثلا ${min}`}
+                value={valueInputMin == 0 ? "" : valueInputMin}
+                onChange={setValueInputMin}
               />
             </li>
             <li className="d-flex flex-column">
@@ -54,6 +64,8 @@ const FilterItem = ({ category, min, max }) => {
                 style={{ fontSize: "12px" }}
                 className="form-control form-control-sm"
                 placeholder={`مثلا ${max}`}
+                value={valueInputMax == 0 ? "" : valueInputMax}
+                onChange={setValueInputMax}
               />
             </li>
           </ul>

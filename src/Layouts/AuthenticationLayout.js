@@ -1,10 +1,8 @@
 import React from "react";
 import { FaCheckCircle } from "react-icons/fa";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import Login from "../pages/Login";
-import Register from "../pages/Register";
 
-const AuthenticationLayout = () => {
+const AuthenticationLayout = ({ children }) => {
   const { pathname } = useLocation();
   return (
     <div
@@ -41,13 +39,7 @@ const AuthenticationLayout = () => {
             </>
           ) : null}
         </div>
-        <div className="col-5">
-          <Routes>
-            <Route path="login" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="/" element={<Navigate to="login" replace={true} />} />
-          </Routes>
-        </div>
+        <div className="col-5">{children}</div>
       </div>
     </div>
   );

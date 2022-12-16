@@ -3,7 +3,7 @@ import Toast from "../helper/toast";
 
 async function login(data) {
   try {
-    const response = await fetch(`${BASE_URL}`, {
+    const response = await fetch(`${BASE_URL}/login.php`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

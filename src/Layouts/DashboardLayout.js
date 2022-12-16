@@ -1,44 +1,38 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect } from "react";
 import Navbar from "../components/dashboard/Navbar";
 import SideBar from "../components/dashboard/aside/SideBar";
-import DashboardMain from "../pages/DashboardMain";
-import { User } from "../context/UserContext";
-import { Route, Routes } from "react-router-dom";
-import PostDetails from "../pages/PostDetails";
-import EditPost from "../pages/EditPost";
-import CreatePost from "../pages/CreatePost";
-import { useState } from "react";
-import LoadingPostsContext from "../context/LoadingPostsContext";
+import LoadingPostsContext from "../context/LoadingContext";
+import CategoryContext from "../context/CategoryContext";
+import FilterContext from "../context/FilterContext";
+import SearchPostContext from "../context/SearchPostContext";
 
-const DashboardLayout = () => {
-  const { user } = useContext(User);
+const DashboardLayout = ({ children }) => {
   useEffect(() => {
     document.body.style.backgroundColor = "#ffffff";
   }, []);
   return (
     <>
-      <LoadingPostsContext>
-        <header>
-          <Navbar />
-        </header>
-        <main>
-          <div className="container-fluid mt-3">
-            <div className="row">
-              <aside className="col-3">
-                <SideBar />
-              </aside>
-              <main className="col-9 mb-3">
-                <Routes>
-                  <Route path="/" element={<DashboardMain />} />
-                  <Route path="/post-details/:id" element={<PostDetails />} />
-                  <Route path="/create-post" element={<CreatePost />} />
-                  <Route path="/edit-post/:id" element={<EditPost />} />
-                </Routes>
+      <FilterContext>
+        <CategoryContext>
+          <LoadingPostsContext>
+            <SearchPostContext>
+              <header>
+                <Navbar />
+              </header>
+              <main>
+                <div className="container-fluid mt-3">
+                  <div className="row">
+                    <aside className="col-3">
+                      <SideBar />
+                    </aside>
+                    <main className="col-9 mb-3">{children}</main>
+                  </div>
+                </div>
               </main>
-            </div>
-          </div>
-        </main>
-      </LoadingPostsContext>
+            </SearchPostContext>
+          </LoadingPostsContext>
+        </CategoryContext>
+      </FilterContext>
     </>
   );
 };

@@ -34,7 +34,6 @@ const Register = () => {
       if (!Object.values(validate).includes(false) && clickButton) {
         const newUser = await register(registerInfo);
         if (newUser.code === "200") {
-          navigate("/dashboard", { replace: true });
           localStorage.setItem(
             "user",
             JSON.stringify({ userId: newUser.id, token: newUser.token })
@@ -50,6 +49,7 @@ const Register = () => {
             password: "",
             confirmPassword: "",
           });
+          navigate("/dashboard/1", { replace: true });
         } else if (newUser.code === "402") {
           Toast.fire({
             icon: "info",

@@ -1,44 +1,28 @@
 import React from "react";
 import { useContext } from "react";
-import { Route, Routes } from "react-router-dom";
-import { Load } from "../../../context/LoadingPostsContext";
+import { Route, Routes, useLocation, useParams } from "react-router-dom";
+import { Load } from "../../../context/LoadingContext";
 import ButtonPrimary from "../../shared/ButtonPrimary";
-import ButtonPrimarySmall from "../../shared/ButtonPrimarySmall";
 import Categories from "./categories/Categories";
-import Filters from "./filters/Filters";
+import MainSideBar from "./MainSideBar";
 
 const SideBar = () => {
-  const { loadPosts } = useContext(Load);
+  const { load } = useContext(Load);
+  const { pathname } = useLocation();
   return (
     <div>
-      <Categories loadPosts={loadPosts} />
-      {!loadPosts && (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Filters />
-                <div className="d-flex justify-content-between my-3">
-                  <ButtonPrimarySmall text="حذف همه آگهی ها" />
-                  <ButtonPrimarySmall text="اعمال فیلتر" />
-                </div>
-              </>
-            }
-          />
-          <Route
-            path="/post-details/:id"
-            element={
-              <>
-                <div className="d-flex justify-content-between my-3">
-                  <ButtonPrimary text="حذف" />
-                  <ButtonPrimary text="ویرایش" />
-                </div>
-              </>
-            }
-          />
-        </Routes>
-      )}
+      <Categories load={load} />
+      {!load &&
+        (pathname.includes("dashboard") ? (
+          <MainSideBar />
+        ) : pathname.includes("post-details") ? (
+          <>
+            <div className="d-flex justify-content-between my-3">
+              <ButtonPrimary text="حذف" />
+              <ButtonPrimary text="ویرایش" />
+            </div>
+          </>
+        ) : null)}
     </div>
   );
 };

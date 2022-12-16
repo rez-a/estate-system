@@ -26,8 +26,7 @@ const Login = () => {
     const request = async () => {
       if (!Object.values(validate).includes(false) && clickButton) {
         const user = await login(loginInfo);
-        if (user.code === "200") {
-          navigate("/dashboard", { replace: true });
+        if (user.response === "200") {
           localStorage.setItem(
             "user",
             JSON.stringify({ userId: user.id, token: user.token })
@@ -40,10 +39,16 @@ const Login = () => {
             license: "",
             password: "",
           });
-        } else if (user.code === "402") {
+          navigate("/dashboard/1", { replace: true });
+        } else if (user.response === "400") {
           Toast.fire({
             icon: "error",
             title: "شماره صنفی یا رمز عبور اشتباه است",
+          });
+        } else if (user.response === "401") {
+          Toast.fire({
+            icon: "info",
+            title: "شما حساب کاربری ندارید! ابتدا ثبت نام کنید",
           });
         }
       }
