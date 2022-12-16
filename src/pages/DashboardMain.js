@@ -36,20 +36,20 @@ const DashboardMain = () => {
   const [pagination, setPagination] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    // setLoad(false);
-    // const request = async () => {
-    //   const data = await getPosts();
-    //   if (data.code === "200") {
-    //     setAllPosts(data.posts);
-    //   } else {
-    //     Toast.fire({
-    //       icon: "info",
-    //       title: "مشکلی پیش آمده.آگهی ها دریافت نشد!",
-    //     });
-    //   }
-    //   setLoad(false);
-    // };
-    // request();
+    setLoad(true);
+    const request = async () => {
+      const data = await getPosts();
+      //   if (data.code === "200") {
+      //     setAllPosts(data.posts);
+      //   } else {
+      //     Toast.fire({
+      //       icon: "info",
+      //       title: "مشکلی پیش آمده.آگهی ها دریافت نشد!",
+      //     });
+      //   }
+      setLoad(false);
+    };
+    request();
   }, []);
   useEffect(() => {
     setAllPosts(posts);
