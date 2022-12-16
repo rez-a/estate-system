@@ -26,11 +26,12 @@ const Login = () => {
     const request = async () => {
       if (!Object.values(validate).includes(false) && clickButton) {
         const user = await login(loginInfo);
+        const {
+          user: { id, token },
+        } = user;
         if (user.response === "200") {
-          localStorage.setItem(
-            "user",
-            JSON.stringify({ userId: user.id, token: user.token })
-          );
+          console.log(user);
+          localStorage.setItem("user", JSON.stringify({ userId: id, token }));
           Toast.fire({
             icon: "success",
             title: "شما با موفقیت وارد حساب کاربری شدید",
