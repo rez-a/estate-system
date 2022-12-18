@@ -25,9 +25,7 @@ const DashboardMain = () => {
   const { state, dispatch } = useContext(Filter);
   const { load, setLoad } = useContext(Load);
   const { category } = useContext(Category);
-  const {
-    user: { posts },
-  } = useContext(User);
+  const { user, setUser } = useContext(User);
   const { search } = useContext(SearchText);
   const { page: thisPage } = useParams();
   const [allPosts, setAllPosts] = useState([]);
@@ -39,20 +37,18 @@ const DashboardMain = () => {
     setLoad(true);
     const request = async () => {
       const data = await getPosts();
-      //   if (data.code === "200") {
-      //     setAllPosts(data.posts);
-      //   } else {
-      //     Toast.fire({
-      //       icon: "info",
-      //       title: "مشکلی پیش آمده.آگهی ها دریافت نشد!",
-      //     });
-      //   }
-      setLoad(false);
+      if (data.code === "200") {
+        setAllPosts(data[0].posts);
+        setUser(data);
+        setLoad(false);
+      } else {
+        Toast.fire({
+          icon: "info",
+          title: "مشکلی پیش آمده.آگهی ها دریافت نشد!",
+        });
+      }
     };
     request();
-  }, []);
-  useEffect(() => {
-    setAllPosts(posts);
   }, []);
   useEffect(() => {
     //change category
@@ -68,38 +64,50 @@ const DashboardMain = () => {
     if (category === "buy") {
       if (state.minPrice !== 0) {
         newPosts = newPosts.filter(
-          (post) => post.price * post.meterage >= state.minPrice
+          (post) => Number(post.price * post.metrage) >= Number(state.minPrice)
         );
       }
       if (state.maxPrice !== 0) {
         newPosts = newPosts.filter(
-          (post) => post.price * post.meterage <= state.maxPrice
+          (post) => Number(post.price * post.metrage) <= Number(state.maxPrice)
         );
       }
     }
 
     //filter meterage
     if (state.minMeterage !== 0) {
-      newPosts = newPosts.filter((post) => post.meterage >= state.minMeterage);
+      newPosts = newPosts.filter(
+        (post) => Number(post.metrage) >= Number(state.minMeterage)
+      );
     }
     if (state.maxMeterage !== 0) {
-      newPosts = newPosts.filter((post) => post.meterage <= state.maxMeterage);
+      newPosts = newPosts.filter(
+        (post) => Number(post.metrage) <= Number(state.maxMeterage)
+      );
     }
 
     //filter buildIn
     if (state.minBuildIn !== 0) {
-      newPosts = newPosts.filter((post) => post.buldIn >= state.minBuildIn);
+      newPosts = newPosts.filter(
+        (post) => Number(post.build_in) >= Number(state.minBuildIn)
+      );
     }
     if (state.maxBuildIn !== 0) {
-      newPosts = newPosts.filter((post) => post.buldIn <= state.maxBuildIn);
+      newPosts = newPosts.filter(
+        (post) => Number(post.build_in) <= Number(state.maxBuildIn)
+      );
     }
 
     //filter room
     if (state.minRoom !== 0) {
-      newPosts = newPosts.filter((post) => post.room >= state.minRoom);
+      newPosts = newPosts.filter(
+        (post) => Number(post.room) >= Number(state.minRoom)
+      );
     }
     if (state.maxRoom !== 0) {
-      newPosts = newPosts.filter((post) => post.room <= state.maxRoom);
+      newPosts = newPosts.filter(
+        (post) => Number(post.room) <= Number(state.maxRoom)
+      );
     }
 
     setPostsFiltered(newPosts);

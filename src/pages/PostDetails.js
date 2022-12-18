@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DetailsColumn from "../components/dashboard/detailsPost/DetailsColumn";
 import DetailsRow from "../components/dashboard/detailsPost/DetailsRow";
 import testImage from "../test.jpg";
@@ -6,12 +6,32 @@ import SimpleImageSlider from "react-simple-image-slider";
 import FsLightbox from "fslightbox-react";
 import { useContext } from "react";
 import { Load } from "../context/LoadingContext";
+import { useParams } from "react-router-dom";
+import { getPost } from "../services/dashboard";
+import Toast from "../helper/toast";
 
 const PostDetails = () => {
   const [toggler, setToggler] = useState(false);
-  const { load, setLoad } = useContext(Load);
-  console.log(load);
-  const images = [{ url: testImage }, { url: testImage }, { url: testImage }];
+  const [load, setLoad] = useState(false);
+  const [post, setPost] = useState({});
+  const { id } = useParams();
+  const images = [{ url: testImage }];
+  useEffect(() => {
+    setLoad(true);
+    const request = async () => {
+      const data = await getPost(id);
+      if (data.code === "200") {
+        setPost(data.post[0]);
+        setLoad(false);
+      } else {
+        Toast.fire({
+          icon: "info",
+          title: "مشکلی پیش آمده.آگهی ها دریافت نشد!!",
+        });
+      }
+    };
+    request();
+  }, []);
   return (
     <>
       <div className={`row g-3 ${load ? "loading-skeleton" : ""}`}>
@@ -19,8 +39,7 @@ const PostDetails = () => {
           <h5
             className={`post-title ${load ? "loading-title-post w-100" : ""}`}
           >
-            خانه مستقل میرزای شیرازی مسجد سید هاخانه مستقل میرزای شیرازی مسجد
-            سید ها
+            {post.title}
           </h5>
           <div className="details-row d-flex align-items-center justify-content-center w-100 border-bottom py-5">
             {load ? (
@@ -34,11 +53,19 @@ const PostDetails = () => {
               ))
             ) : (
               <>
-                <DetailsRow title="متراژ" data="200" border={true} />
-                <DetailsRow title="اتاق" data="2" border={true} />
-                <DetailsRow title="ساخت" data="1400" border={true} />
-                <DetailsRow title="پارکینگ" data="ندارد" border={true} />
-                <DetailsRow title="انباری" data="دارد" border={false} />
+                <DetailsRow title="متراژ" data={post.metrage} border={true} />
+                <DetailsRow title="اتاق" data={post.room} border={true} />
+                <DetailsRow title="ساخت" data={post.build_in} border={true} />
+                <DetailsRow
+                  title="پارکینگ"
+                  data={Number(post.parking) === 1 ? "دارد" : "ندارد"}
+                  border={true}
+                />
+                <DetailsRow
+                  title="انباری"
+                  data={Number(post.warehouse) === 1 ? "دارد" : "ندارد"}
+                  border={false}
+                />
               </>
             )}
           </div>
@@ -53,10 +80,31 @@ const PostDetails = () => {
               ))
             ) : (
               <>
-                <DetailsColumn title="قیمت کل" data={`3,100,000,000 تومان`} />
-                <DetailsColumn title="قیمت هر متر" data={`15,500,000 تومان`} />
-                <DetailsColumn title="سند" data={`دارد`} />
-                <DetailsColumn title="اطلاعات تماس" data={`09302582971`} />
+                <DetailsColumn
+                  title={post.category === "buy" ? "قیمت کل" : "ودیعه"}
+                  data={`${
+                    post.category === "buy"
+                      ? (
+                          Number(post.price) * Number(post.metrage)
+                        ).toLocaleString()
+                      : Number(post.mortgage).toLocaleString()
+                  } تومان`}
+                />
+                <DetailsColumn
+                  title={
+                    post.category === "buy" ? "قیمت هر متر" : "اجاره ماهانه"
+                  }
+                  data={`${
+                    post.category === "buy"
+                      ? Number(post.price).toLocaleString()
+                      : Number(post.rent).toLocaleString()
+                  } تومان`}
+                />
+                <DetailsColumn
+                  title="سند"
+                  data={Number(post.document) === 1 ? "دارد" : "ندارد"}
+                />
+                <DetailsColumn title="اطلاعات تماس" data={post.number} />
               </>
             )}
           </div>
@@ -70,11 +118,7 @@ const PostDetails = () => {
                 overflow: "hidden",
               }}
             >
-              {`خانه مستقل سه طبقه ، خیابان میرزای شیرازی ، بن بست میرسادات متراژ
-زمین 86 متر ، هر طبقه 66 متر ، یک خوابه هر طبقه مستقل با امکانات
-داخل کف سرامیک ، کابینت mdf
-دسترسی آسان به مرکزشهر
-              `}
+              {post.description}
             </pre>
           </div>
         </div>

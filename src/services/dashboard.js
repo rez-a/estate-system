@@ -15,9 +15,7 @@ const getPosts = async () => {
     });
 
     if (response.ok) {
-      console.log(response);
-      const data = await response.json();
-      console.log(data);
+      return await response.json();
     } else {
       throw Error();
     }
@@ -27,16 +25,61 @@ const getPosts = async () => {
       title: "مشکلی پیش آمده.آگهی ها دریافت نشد!!",
     });
   }
-  // const response = await axios.post(
-  //   `${BASE_URL}/posts.php`,
-  //   { id: userId, token },
-  //   {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   }
-  // );
-  // console.log(response);
 };
 
-export { getPosts };
+const getPost = async (post_id) => {
+  const { userId, token } = JSON.parse(localStorage.getItem("user"));
+  try {
+    const response = await fetch(`${BASE_URL}/single-post.php`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        user_id: userId,
+        token,
+        post_id,
+      }),
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error();
+    }
+  } catch (err) {
+    Toast.fire({
+      icon: "error",
+      title: "مشکلی پیش آمده.آگهی مورد نظر دریافت نشد!! ",
+    });
+  }
+};
+
+const editPost = async (data, post_id) => {
+  const { userId, token } = JSON.parse(localStorage.getItem("user"));
+  try {
+    const response = await fetch(`${BASE_URL}/update-post.php`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        data,
+        user_id: userId,
+        token,
+        post_id,
+      }),
+    });
+    if (response.ok) {
+      return await response.json();
+    } else {
+      throw Error();
+    }
+  } catch (err) {
+    Toast.fire({
+      icon: "error",
+      title: "مشکلی پیش آمده.آگهی مورد نظر ویرایش نشد!! ",
+    });
+  }
+};
+
+export { getPosts, getPost, editPost };

@@ -16,7 +16,7 @@ const Navbar = () => {
   const { setSearch } = useContext(SearchText);
   const { load } = useContext(Load);
   const {
-    user: { business_license, business_name },
+    user: { business_license, estate_name },
   } = useContext(User);
   const [inputValue, setInputValue] = useState("");
   const handleShowCategory = (category) => {
@@ -53,7 +53,7 @@ const Navbar = () => {
                 load ? "loading-style mb-2" : ""
               }`}
             >
-              {business_name}
+              {estate_name}
             </span>
             <span
               className={`text-secondary ${load ? "loading-style" : ""}`}
@@ -131,7 +131,7 @@ const Navbar = () => {
           />
           <span className="me-1">خروج</span>
         </button>
-        <ButtonPrimary text="ثبت آگهی" />
+        <ButtonPrimary text="ثبت آگهی" type="btnPrimary" />
       </div>
     </nav>
   );

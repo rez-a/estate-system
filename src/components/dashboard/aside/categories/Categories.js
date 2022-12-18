@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 
 const Categories = ({ load }) => {
   const {
-    user: { posts },
+    user: {
+      0: { posts },
+    },
   } = useContext(User);
   const { category, setCategory } = useContext(CategoryPosts);
   return (

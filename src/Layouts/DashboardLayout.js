@@ -5,6 +5,7 @@ import LoadingPostsContext from "../context/LoadingContext";
 import CategoryContext from "../context/CategoryContext";
 import FilterContext from "../context/FilterContext";
 import SearchPostContext from "../context/SearchPostContext";
+import EditPostLoads from "../context/EditPostLoads";
 
 const DashboardLayout = ({ children }) => {
   useEffect(() => {
@@ -22,10 +23,12 @@ const DashboardLayout = ({ children }) => {
               <main>
                 <div className="container-fluid mt-3">
                   <div className="row">
-                    <aside className="col-3">
-                      <SideBar />
-                    </aside>
-                    <main className="col-9 mb-3">{children}</main>
+                    <EditPostLoads>
+                      <aside className="col-3">
+                        <SideBar />
+                      </aside>
+                      <main className="col-9 mb-3">{children}</main>
+                    </EditPostLoads>
                   </div>
                 </div>
               </main>

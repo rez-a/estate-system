@@ -3,7 +3,7 @@ import { fakeUser } from "../fakeData";
 
 export const User = createContext();
 const UserConext = ({ children }) => {
-  const [user, setUser] = useState(fakeUser);
+  const [user, setUser] = useState({});
   return <User.Provider value={{ user, setUser }}>{children}</User.Provider>;
 };
 

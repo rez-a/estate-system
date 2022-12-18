@@ -121,6 +121,7 @@ const Login = () => {
       </div>
       <div className="card-footer bg-white text-start">
         <ButtonPrimary
+          type="btnPrimary"
           text="ورود"
           onClickHandler={clickHandler}
           spinner={loading ? <Spinner /> : ""}

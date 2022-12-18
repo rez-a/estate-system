@@ -4,7 +4,16 @@ import ButtonPrimarySmall from "../../shared/ButtonPrimarySmall";
 import { FaCamera } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const Post = ({ title, trust, rent, price, category, load, meterage }) => {
+const Post = ({
+  title,
+  mortgage,
+  rent,
+  price,
+  category,
+  load,
+  metrage,
+  id,
+}) => {
   return (
     <div className="col-4 mb-3">
       <div className="card post position-relative h-100">
@@ -33,7 +42,7 @@ const Post = ({ title, trust, rent, price, category, load, meterage }) => {
                   >
                     {load
                       ? "__________"
-                      : `${(price * meterage).toLocaleString()} تومان`}
+                      : `${Number(price * metrage).toLocaleString()} تومان`}
                   </p>
                 ) : category === "mortgage" ? (
                   <>
@@ -45,7 +54,7 @@ const Post = ({ title, trust, rent, price, category, load, meterage }) => {
                     >
                       {load
                         ? "__________"
-                        : `ودیعه : ${trust.toLocaleString()} تومان`}
+                        : `ودیعه : ${Number(mortgage).toLocaleString()} تومان`}
                     </p>
                     <p
                       className="text-muted mb-0"
@@ -66,7 +75,11 @@ const Post = ({ title, trust, rent, price, category, load, meterage }) => {
                     >
                       {load
                         ? "__________"
-                        : `ودیعه : ${trust.toLocaleString()} تومان`}
+                        : `ودیعه : ${
+                            mortgage.trim() === ""
+                              ? 0
+                              : Number(mortgage).toLocaleString()
+                          } تومان`}
                     </p>
                     <p
                       className="text-muted mb-0"
@@ -76,7 +89,9 @@ const Post = ({ title, trust, rent, price, category, load, meterage }) => {
                     >
                       {load
                         ? "__________"
-                        : `اجاره ماهانه : ${rent.toLocaleString()} تومان`}
+                        : `اجاره ماهانه : ${Number(
+                            rent
+                          ).toLocaleString()} تومان`}
                     </p>
                   </>
                 )}
@@ -106,10 +121,12 @@ const Post = ({ title, trust, rent, price, category, load, meterage }) => {
             left: "5px",
           }}
         >
-          <Link to="/post-details/1">
+          <Link to={`/post-details/${id}`}>
             <ButtonPrimarySmall text="جزییات" />
           </Link>
-          <ButtonPrimarySmall text="ویرایش" />
+          <Link to={`/edit-post/${id}`}>
+            <ButtonPrimarySmall text="ویرایش" />
+          </Link>
           <ButtonPrimarySmall text="حذف" />
         </div>
       </div>
