@@ -8,10 +8,10 @@ import convertPersianNumberToEnglish from "../helper/convertPersianNumberToEngli
 import { convertSpliterToNumber } from "../helper/convertSpliterToNumber";
 import Toast from "../helper/toast";
 import { getPost } from "../services/dashboard";
-import testImage from "../test.jpg";
+import defaultImage from "../assets/images/defaultImage.jpg";
 
 const EditPost = () => {
-  const { post, setPost } = useContext(EditLoads);
+  const { setPost } = useContext(EditLoads);
   const { load, setLoad } = useContext(EditLoads);
   const { id } = useParams();
   const date = new Date();
@@ -36,7 +36,6 @@ const EditPost = () => {
     user_id: "",
     warehouse: "",
   });
-  console.log(postEdited);
   useEffect(() => {
     setLoad({ ...load, getPostLoad: true });
     const request = async () => {
@@ -44,13 +43,13 @@ const EditPost = () => {
       if (data.code === "200") {
         setPost(data.post[0]);
         setPostEdited(data.post[0]);
+        setLoad({ ...load, getPostLoad: false });
       } else {
         Toast.fire({
           icon: "info",
           title: "مشکلی پیش آمده.آگهی ها دریافت نشد!!",
         });
       }
-      setLoad({ ...load, getPostLoad: false });
     };
     request();
   }, []);
@@ -67,14 +66,24 @@ const EditPost = () => {
   return (
     <div className="row g-3">
       <form className="col-7">
-        <div className="row justify-content-between g-6">
+        <div
+          className={`row justify-content-between g-6 ${
+            load.getPostLoad ? "loading-skeleton" : ""
+          }`}
+        >
           <InputPrimary
             label="عنوان آگهی"
-            require={true}
-            placeholder="مثلا 85 متری نوساز ..."
+            require={load.getPostLoad ? false : true}
+            placeholder={load.getPostLoad ? "" : '"مثلا 85 متری نوساز ..."'}
             value={postEdited.title}
             width="col-12"
-            invalidText={postEdited.title === "" ? "این فیلد الزامی است" : ""}
+            invalidText={
+              load.getPostLoad
+                ? ""
+                : postEdited.title === ""
+                ? "این فیلد الزامی است"
+                : ""
+            }
             setValue={(e) =>
               setPostEdited({ ...postEdited, title: e.target.value })
             }
@@ -88,7 +97,7 @@ const EditPost = () => {
             defaultChecked={postEdited.document}
             value1="1"
             value2="0"
-            require={true}
+            require={load.getPostLoad ? false : true}
             onChangeHandler={(e) =>
               setPostEdited({ ...postEdited, document: e.target.value })
             }
@@ -102,7 +111,7 @@ const EditPost = () => {
             defaultChecked={postEdited.parking}
             value1="1"
             value2="0"
-            require={true}
+            require={load.getPostLoad ? false : true}
             onChangeHandler={(e) =>
               setPostEdited({ ...postEdited, parking: e.target.value })
             }
@@ -116,7 +125,7 @@ const EditPost = () => {
             defaultChecked={postEdited.warehouse}
             value1="1"
             value2="0"
-            require={true}
+            require={load.getPostLoad ? false : true}
             onChangeHandler={(e) =>
               setPostEdited({ ...postEdited, warehouse: e.target.value })
             }
@@ -132,19 +141,21 @@ const EditPost = () => {
             value1="buy"
             value2="mortgage"
             value3="rent"
-            require={true}
+            require={load.getPostLoad ? false : true}
             onChangeHandler={(e) =>
               setPostEdited({ ...postEdited, category: e.target.value })
             }
           />
           <InputPrimary
             label="تعداد اتاق"
-            require={true}
-            placeholder="مثلا 2"
+            require={load.getPostLoad ? false : true}
+            placeholder={load.getPostLoad ? "" : "مثلا 2"}
             value={isNaN(Number(postEdited.room)) ? "" : postEdited.room}
             width="col-6"
             invalidText={
-              isNaN(Number(postEdited.room))
+              load.getPostLoad
+                ? ""
+                : isNaN(Number(postEdited.room))
                 ? "این فیلد باید عدد باشد"
                 : postEdited.room.trim() === ""
                 ? "این فیلد الزامی است"
@@ -156,8 +167,8 @@ const EditPost = () => {
           />
           <InputPrimary
             label="سال ساخت"
-            require={true}
-            placeholder="مثلا 1395"
+            require={load.getPostLoad ? false : true}
+            placeholder={load.getPostLoad ? "" : "مثلا 1395"}
             value={
               isNaN(Number(postEdited.build_in))
                 ? ""
@@ -166,11 +177,13 @@ const EditPost = () => {
                 : ""
             }
             invalidText={
-              isNaN(Number(postEdited.build_in))
+              load.getPostLoad
+                ? ""
+                : isNaN(Number(postEdited.build_in))
                 ? "این فیلد باید عدد باشد"
                 : Number(postEdited.build_in) > Number(thisYear)
                 ? `سال ساخت باید حداکثر${thisYear}باشد`
-                : postEdited.room.trim() === ""
+                : postEdited.build_in.trim() === ""
                 ? "این فیلد الزامی است"
                 : ""
             }
@@ -181,12 +194,14 @@ const EditPost = () => {
           />
           <InputPrimary
             label="متراژ"
-            require={true}
-            placeholder="مثلا 200"
+            require={load.getPostLoad ? false : true}
+            placeholder={load.getPostLoad ? "" : "مثلا 200"}
             value={isNaN(Number(postEdited.metrage)) ? "" : postEdited.metrage}
             width="col-6"
             invalidText={
-              isNaN(Number(postEdited.metrage))
+              load.getPostLoad
+                ? ""
+                : isNaN(Number(postEdited.metrage))
                 ? "این فیلد باید عدد باشد"
                 : postEdited.metrage.trim() === ""
                 ? "این فیلد الزامی است"
@@ -199,8 +214,8 @@ const EditPost = () => {
           {postEdited.category === "buy" ? (
             <InputPrimary
               label="قیمت هر متر مربع"
-              require={true}
-              placeholder="مثلا 15,000,000"
+              require={load.getPostLoad ? false : true}
+              placeholder={load.getPostLoad ? "" : "مثلا 15,000,000"}
               value={
                 isNaN(Number(postEdited.price))
                   ? ""
@@ -209,7 +224,9 @@ const EditPost = () => {
                   : ""
               }
               invalidText={
-                isNaN(Number(postEdited.price))
+                load.getPostLoad
+                  ? ""
+                  : isNaN(Number(postEdited.price))
                   ? "این فیلد باید عدد باشد"
                   : String(postEdited.price).trim() === ""
                   ? "این فیلد الزامی است"
@@ -227,8 +244,8 @@ const EditPost = () => {
             postEdited.category === "rent" ? (
             <InputPrimary
               label="ودیعه"
-              require={true}
-              placeholder="مثلا 150,000,000"
+              require={load.getPostLoad ? false : true}
+              placeholder={load.getPostLoad ? "" : "مثلا 150,000,000"}
               value={
                 isNaN(Number(postEdited.mortgage))
                   ? ""
@@ -237,7 +254,9 @@ const EditPost = () => {
                   : ""
               }
               invalidText={
-                isNaN(Number(postEdited.mortgage))
+                load.getPostLoad
+                  ? ""
+                  : isNaN(Number(postEdited.mortgage))
                   ? "این فیلد باید عدد باشد"
                   : String(postEdited.mortgage).trim() === ""
                   ? "این فیلد الزامی است"
@@ -254,12 +273,16 @@ const EditPost = () => {
           ) : null}
           <InputPrimary
             label="اطلاعات تماس"
-            require={true}
-            placeholder="مثلا 09302582971"
+            require={load.getPostLoad ? false : true}
+            placeholder={load.getPostLoad ? "" : "مثلا 09302582971"}
             value={postEdited.number}
             width="col-6"
             invalidText={
-              postEdited.room.trim() === "" ? "این فیلد الزامی است" : ""
+              load.getPostLoad
+                ? ""
+                : postEdited.room.trim() === ""
+                ? "این فیلد الزامی است"
+                : ""
             }
             setValue={(e) =>
               setPostEdited({
@@ -291,8 +314,8 @@ const EditPost = () => {
           ) : postEdited.category === "rent" ? (
             <InputPrimary
               label="اجاره"
-              require={true}
-              placeholder="مثلا 1,000,000"
+              require={load.getPostLoad ? false : true}
+              placeholder={load.getPostLoad ? "" : "مثلا 1,000,000"}
               value={
                 isNaN(Number(postEdited.rent))
                   ? ""
@@ -301,7 +324,9 @@ const EditPost = () => {
                   : ""
               }
               invalidText={
-                isNaN(Number(postEdited.rent))
+                load.getPostLoad
+                  ? ""
+                  : isNaN(Number(postEdited.rent))
                   ? "این فیلد باید عدد باشد"
                   : String(postEdited.rent).trim() === ""
                   ? "این فیلد الزامی است"
@@ -320,7 +345,7 @@ const EditPost = () => {
           <TextAreaPrimary
             width="col-12"
             value={postEdited.description}
-            placeholder="توضیحات..."
+            placeholder={load.getPostLoad ? "" : "توضیحات..."}
             label="توضیحات"
             setValue={(e) =>
               setPostEdited({ ...postEdited, description: e.target.value })
@@ -330,9 +355,9 @@ const EditPost = () => {
       </form>
       <div className="col-5">
         <img
-          src={testImage}
+          src={defaultImage}
           className="img-fluid"
-          alt="postImage"
+          alt="defaultImage"
           style={{ width: "100%" }}
         />
       </div>

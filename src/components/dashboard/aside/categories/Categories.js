@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { User } from "../../../../context/UserContext";
 import Category from "./Category";
 import { Category as CategoryPosts } from "../../../../context/CategoryContext";
@@ -6,9 +6,7 @@ import { Link } from "react-router-dom";
 
 const Categories = ({ load }) => {
   const {
-    user: {
-      0: { posts },
-    },
+    state: { posts },
   } = useContext(User);
   const { category, setCategory } = useContext(CategoryPosts);
   return (

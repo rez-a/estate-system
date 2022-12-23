@@ -4,7 +4,7 @@ import { createContext } from "react";
 
 export const Load = createContext();
 const LoadingContext = ({ children }) => {
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
   return <Load.Provider value={{ load, setLoad }}>{children}</Load.Provider>;
 };
 

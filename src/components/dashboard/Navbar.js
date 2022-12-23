@@ -10,14 +10,16 @@ import { SearchText } from "../../context/SearchPostContext";
 import { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const { category } = useContext(Category);
   const { setSearch } = useContext(SearchText);
   const { load } = useContext(Load);
   const {
-    user: { business_license, estate_name },
+    state: { business_license, estate_name },
   } = useContext(User);
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const handleShowCategory = (category) => {
     switch (category) {
@@ -31,6 +33,11 @@ const Navbar = () => {
         return "همه آگهی ها";
     }
   };
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login", { replace: true });
+  };
+
   useEffect(() => {
     clearSearch();
   }, [category]);
@@ -122,7 +129,7 @@ const Navbar = () => {
             </>
           )}
         </form>
-        <button className="btn mx-4">
+        <button onClick={handleLogout} className="btn mx-4">
           <BiExport
             size="1.5rem"
             style={{
@@ -131,7 +138,9 @@ const Navbar = () => {
           />
           <span className="me-1">خروج</span>
         </button>
-        <ButtonPrimary text="ثبت آگهی" type="btnPrimary" />
+        <Link to="/create-post">
+          <ButtonPrimary text="ثبت آگهی" type="btnPrimary" />
+        </Link>
       </div>
     </nav>
   );

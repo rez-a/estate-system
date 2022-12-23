@@ -1,4 +1,5 @@
 const validatePostData = (postData) => {
+  console.log(postData);
   const {
     build_in,
     category,

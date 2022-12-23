@@ -7,8 +7,6 @@ import Post from "../components/dashboard/main/Post";
 import { Category } from "../context/CategoryContext";
 import { Load } from "../context/LoadingContext";
 import { User } from "../context/UserContext";
-import Toast from "../helper/toast";
-import { getPosts } from "../services/dashboard";
 import notFoundPost from "../assets/images/notfound-post.png";
 import { showCategory } from "../helper/showCategory";
 import { Filter } from "../context/FilterContext";
@@ -25,37 +23,20 @@ const DashboardMain = () => {
   const { state, dispatch } = useContext(Filter);
   const { load, setLoad } = useContext(Load);
   const { category } = useContext(Category);
-  const { user, setUser } = useContext(User);
+  const { state: userState, dispatch: userDispatch } = useContext(User);
   const { search } = useContext(SearchText);
   const { page: thisPage } = useParams();
-  const [allPosts, setAllPosts] = useState([]);
   const [postsFiltered, setPostsFiltered] = useState([]);
   const [page, setPage] = useState(Number(thisPage));
   const [pagination, setPagination] = useState([]);
   const navigate = useNavigate();
-  useEffect(() => {
-    setLoad(true);
-    const request = async () => {
-      const data = await getPosts();
-      if (data.code === "200") {
-        setAllPosts(data[0].posts);
-        setUser(data);
-        setLoad(false);
-      } else {
-        Toast.fire({
-          icon: "info",
-          title: "مشکلی پیش آمده.آگهی ها دریافت نشد!",
-        });
-      }
-    };
-    request();
-  }, []);
+
   useEffect(() => {
     //change category
     let newPosts =
       category === "all"
-        ? allPosts
-        : allPosts.filter((post) => post.category === category);
+        ? userState.posts
+        : userState.posts.filter((post) => post.category === category);
 
     //search title
     newPosts = newPosts.filter((post) => post.title.includes(search));
@@ -111,7 +92,7 @@ const DashboardMain = () => {
     }
 
     setPostsFiltered(newPosts);
-  }, [category, allPosts, state, search]);
+  }, [category, userState, state, search]);
   useEffect(() => {
     const paginationPosts = postsFiltered.filter(
       (_, index) => index >= (page - 1) * 9 && index <= page * 9 - 1

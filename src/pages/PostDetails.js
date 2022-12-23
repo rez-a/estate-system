@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from "react";
 import DetailsColumn from "../components/dashboard/detailsPost/DetailsColumn";
 import DetailsRow from "../components/dashboard/detailsPost/DetailsRow";
-import testImage from "../test.jpg";
-import SimpleImageSlider from "react-simple-image-slider";
-import FsLightbox from "fslightbox-react";
-import { useContext } from "react";
-import { Load } from "../context/LoadingContext";
 import { useParams } from "react-router-dom";
 import { getPost } from "../services/dashboard";
 import Toast from "../helper/toast";
+import defaultImage from "../assets/images/defaultImage.jpg";
 
 const PostDetails = () => {
-  const [toggler, setToggler] = useState(false);
   const [load, setLoad] = useState(false);
   const [post, setPost] = useState({});
   const { id } = useParams();
-  const images = [{ url: testImage }];
   useEffect(() => {
     setLoad(true);
     const request = async () => {
@@ -134,28 +128,14 @@ const PostDetails = () => {
           </div>
         ) : (
           <div className="col-5 position-relative d-flex flex-column justify-content-start align-items-center">
-            <SimpleImageSlider
-              width="90%"
-              height="450px"
-              images={images}
-              showBullets={true}
-              showNavs={true}
-              navSize={30}
-              navStyle={2}
-              navMargin={10}
-              onClick={() => setToggler((prevToggler) => !prevToggler)}
+            <img
+              src={defaultImage}
+              alt="defaultImage"
+              className="img-fluid w-100"
             />
-            <small className="text-secondary mt-2">
-              برای بزرگنمایی روی تصاویر کلیک کنید
-            </small>
           </div>
         )}
       </div>
-      <FsLightbox
-        toggler={toggler}
-        sources={[testImage, testImage, testImage]}
-        exitFullscreenOnClose={true}
-      />
     </>
   );
 };

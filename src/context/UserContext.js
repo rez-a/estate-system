@@ -1,10 +1,16 @@
-import React, { createContext, useState } from "react";
-import { fakeUser } from "../fakeData";
+import React, { createContext } from "react";
+import { useReducer } from "react";
+import userReducer from "../reducer/userReducer/userReducer";
 
 export const User = createContext();
+const initialState = {
+  business_license: "",
+  estate_name: "",
+  posts: [],
+};
 const UserConext = ({ children }) => {
-  const [user, setUser] = useState({});
-  return <User.Provider value={{ user, setUser }}>{children}</User.Provider>;
+  const [state, dispatch] = useReducer(userReducer, initialState);
+  return <User.Provider value={{ state, dispatch }}>{children}</User.Provider>;
 };
 
 export default UserConext;

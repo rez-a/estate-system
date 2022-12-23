@@ -1,8 +1,13 @@
 import React from "react";
-import test from "../../../test.jpg";
 import ButtonPrimarySmall from "../../shared/ButtonPrimarySmall";
-import { FaCamera } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import Toast from "../../../helper/toast";
+import { deletePost as deletePostServices } from "../../../services/dashboard";
+import { useContext } from "react";
+import { User } from "../../../context/UserContext";
+import { deletePost } from "../../../reducer/userReducer/ActionCreators";
+import defaultImage from "../../../assets/images/defaultImage.jpg";
 
 const Post = ({
   title,
@@ -14,6 +19,35 @@ const Post = ({
   metrage,
   id,
 }) => {
+  const { dispatch } = useContext(User);
+  const handleDeletePost = async (postId, postTitle) => {
+    Swal.fire({
+      title: "آگهی حذف شود؟",
+      text: `عنوان آگهی : ${postTitle}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#A62626",
+      confirmButtonText: "بله ، حذف شود",
+      cancelButtonText: "خیر",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deletePostServices(postId);
+        if (res?.code === 200) {
+          dispatch(deletePost(postId));
+          Swal.fire({
+            icon: "success",
+            title: "آگهی با موفقیت حذف شد!!",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "مشکلی پیش آمد.آگهی حذف نشد!!",
+          });
+        }
+      }
+    });
+  };
   return (
     <div className="col-4 mb-3">
       <div className="card post position-relative h-100">
@@ -99,20 +133,11 @@ const Post = ({
             </div>
           </div>
           <div className="col-md-5 p-2 position-relative">
-            <img src={test} className="img-fluid rounded h-100" alt="test" />
-            <div
-              className={`position-absolute d-flex align-items-center px-1 rounded ${
-                load ? "d-none" : ""
-              }`}
-              style={{
-                top: "1rem",
-                left: "1rem",
-                backgroundColor: "rgba(0 , 0 , 0 ,0.6)",
-              }}
-            >
-              <span className="fw-bold text-white ms-1 mt-1">5</span>
-              <FaCamera color="#fff" />
-            </div>
+            <img
+              src={defaultImage}
+              className="img-fluid rounded h-100"
+              alt="defaultImage"
+            />
           </div>
         </div>
         <div
@@ -127,7 +152,10 @@ const Post = ({
           <Link to={`/edit-post/${id}`}>
             <ButtonPrimarySmall text="ویرایش" />
           </Link>
-          <ButtonPrimarySmall text="حذف" />
+          <ButtonPrimarySmall
+            onClickHandler={() => handleDeletePost(id, title)}
+            text="حذف"
+          />
         </div>
       </div>
     </div>

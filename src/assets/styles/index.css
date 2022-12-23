@@ -115,7 +115,8 @@ ul {
 .loading-skeleton button,
 .loading-skeleton label,
 .loading-skeleton input,
-.loading-skeleton pre {
+.loading-skeleton pre,
+.loading-skeleton textarea {
   color: #eee !important;
   appearance: none;
   -webkit-appearance: none;

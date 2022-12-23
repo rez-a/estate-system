@@ -17,10 +17,11 @@ const Button = styled.button`
   }
 `;
 
-const ButtonPrimarySmall = ({ onClickHandler, text }) => {
+const ButtonPrimarySmall = ({ onClickHandler, text, spinner }) => {
   return (
     <Button className="btnSm" onClick={onClickHandler}>
       {text}
+      {spinner}
     </Button>
   );
 };

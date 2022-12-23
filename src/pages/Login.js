@@ -26,11 +26,10 @@ const Login = () => {
     const request = async () => {
       if (!Object.values(validate).includes(false) && clickButton) {
         const user = await login(loginInfo);
-        const {
-          user: { id, token },
-        } = user;
         if (user.response === "200") {
-          console.log(user);
+          const {
+            user: { id, token },
+          } = user;
           localStorage.setItem("user", JSON.stringify({ userId: id, token }));
           Toast.fire({
             icon: "success",
@@ -50,6 +49,10 @@ const Login = () => {
           Toast.fire({
             icon: "info",
             title: "شما حساب کاربری ندارید! ابتدا ثبت نام کنید",
+          });
+          setLoginInfo({
+            license: "",
+            password: "",
           });
         }
       }
