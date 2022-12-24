@@ -6,11 +6,11 @@ const AuthenticationLayout = ({ children }) => {
   const { pathname } = useLocation();
   return (
     <div
-      className="container py-5 d-flex align-items-center"
+      className="container py-5 d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh" }}
     >
-      <div className="row col-12 align-items-center h-100 justify-content-between">
-        <div className="col-6 text-center">
+      <div className="row col-12 align-items-center h-100 justify-content-between ">
+        <div className="col-md-6 col-12 text-center">
           <h1 className="color-primary">سامانه املاک و مستغلات</h1>
           <p className="fw-bold fs-5 mb-5">
             دسترسی آسان به آگهی های املاک خود جهت ارائه به مشتری
@@ -39,7 +39,7 @@ const AuthenticationLayout = ({ children }) => {
             </>
           ) : null}
         </div>
-        <div className="col-5">{children}</div>
+        <div className="col-md-5 col-12">{children}</div>
       </div>
     </div>
   );

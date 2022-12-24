@@ -46,7 +46,7 @@ const CreatePost = () => {
   }, [post]);
   return (
     <div className="row g-3">
-      <form className="col-7">
+      <form className="col-lg-7 order-last order-lg-first">
         <div className="row justify-content-between g-6">
           <InputPrimary
             label="عنوان آگهی"
@@ -58,7 +58,7 @@ const CreatePost = () => {
             setValue={(e) => setPost({ ...post, title: e.target.value })}
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="سند"
             name="document"
             labelCheckOut1="دارد"
@@ -72,7 +72,7 @@ const CreatePost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="پارکینگ"
             name="parking"
             labelCheckOut1="دارد"
@@ -86,7 +86,7 @@ const CreatePost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="انباری"
             name="warehouse"
             labelCheckOut1="دارد"
@@ -100,7 +100,7 @@ const CreatePost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="دسته بندی"
             name="category"
             labelCheckOut1="خرید"
@@ -120,7 +120,7 @@ const CreatePost = () => {
             require={true}
             placeholder="مثلا 2"
             value={isNaN(Number(post.room)) ? "" : post.room}
-            width="col-6"
+            width="col-sm-6 col-12"
             invalidText={
               isNaN(Number(post.room))
                 ? "این فیلد باید عدد باشد"
@@ -150,7 +150,7 @@ const CreatePost = () => {
                 ? "این فیلد الزامی است"
                 : ""
             }
-            width="col-6"
+            width="col-sm-6 col-12"
             setValue={(e) => setPost({ ...post, build_in: e.target.value })}
           />
           <InputPrimary
@@ -158,7 +158,7 @@ const CreatePost = () => {
             require={true}
             placeholder="مثلا 200"
             value={isNaN(Number(post.metrage)) ? "" : post.metrage}
-            width="col-6"
+            width="col-sm-6 col-12"
             invalidText={
               isNaN(Number(post.metrage))
                 ? "این فیلد باید عدد باشد"
@@ -187,7 +187,7 @@ const CreatePost = () => {
                   ? "این فیلد الزامی است"
                   : ""
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               setValue={(e) =>
                 setPost({
                   ...post,
@@ -214,7 +214,7 @@ const CreatePost = () => {
                   ? "این فیلد الزامی است"
                   : ""
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               setValue={(e) =>
                 setPost({
                   ...post,
@@ -228,7 +228,7 @@ const CreatePost = () => {
             require={true}
             placeholder="مثلا 09302582971"
             value={post.number}
-            width="col-6"
+            width="col-sm-6 col-12"
             invalidText={post.room.trim() === "" ? "این فیلد الزامی است" : ""}
             setValue={(e) =>
               setPost({
@@ -245,14 +245,14 @@ const CreatePost = () => {
                   ? "0"
                   : Number(post.price * post.metrage).toLocaleString()
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               disabled={true}
             />
           ) : post.category === "mortgage" ? (
             <InputPrimary
               label="اجاره"
               value="0"
-              width="col-6"
+              width="col-sm-6 col-12"
               disabled={true}
             />
           ) : post.category === "rent" ? (
@@ -274,7 +274,7 @@ const CreatePost = () => {
                   ? "این فیلد الزامی است"
                   : ""
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               setValue={(e) =>
                 setPost({
                   ...post,
@@ -292,7 +292,7 @@ const CreatePost = () => {
           />
         </div>
       </form>
-      <div className="col-5">
+      <div className="col-lg-5 order-first order-lg-last">
         <img
           src={defaultImage}
           className="img-fluid"

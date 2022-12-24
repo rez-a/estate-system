@@ -49,10 +49,10 @@ const Post = ({
     });
   };
   return (
-    <div className="col-4 mb-3">
+    <div className="col-xl-4 col-sm-6 col-12 mb-3">
       <div className="card post position-relative h-100">
         <div className="row g-0 h-100">
-          <div className="col-md-7">
+          <div className="col-7">
             <div className="card-body d-flex flex-column justify-content-between h-100 p-2">
               <h6
                 className={`card-title fw-bold mb-5 ${load ? "h-25" : ""}`}
@@ -132,7 +132,7 @@ const Post = ({
               </div>
             </div>
           </div>
-          <div className="col-md-5 p-2 position-relative">
+          <div className="col-5 p-2 position-relative">
             <img
               src={defaultImage}
               className="img-fluid rounded h-100"

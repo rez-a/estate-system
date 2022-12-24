@@ -47,7 +47,7 @@ const Navbar = () => {
   };
   return (
     <nav className="navbar bg-light">
-      <div className="container-fluid">
+      <div className="container-fluid container-xxl">
         <a className="navbar-brand me-0 ms-3 d-flex align-items-center ms-auto">
           <FaHome size="3rem" color="#B5B5B5" />
           <span
@@ -70,77 +70,79 @@ const Navbar = () => {
             </span>
           </span>
         </a>
-        <form
-          className="d-flex search"
-          role="search"
-          style={{ position: "relative" }}
-        >
-          <input
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="form-control py-2"
-            type="text"
-            placeholder={
-              !load ? `جستجو در ${handleShowCategory(category)}` : null
-            }
-            aria-label="Search"
-            style={{
-              fontSize: "12px",
-              backgroundColor: "#E7E7E7",
-              border: "none",
-              color: "rgb(110 110 110)",
-              width: "300px",
-              paddingRight: "2rem",
-              paddingLeft: "2rem",
-            }}
-          />
-          {!load && (
-            <>
-              <button
-                className="btn btn-search"
-                onClick={() => setSearch(inputValue)}
-                type="button"
-                style={{
-                  position: "absolute",
-                  right: "7px",
-                  top: "50%",
-                  padding: 0,
-                  transform: "translateY(-50%)",
-                }}
-              >
-                <FaSearch />
-              </button>
-              {inputValue.trim() !== "" && (
+        <div className="d-flex align-items-center menu-content">
+          <form
+            className="d-md-flex d-none search"
+            role="search"
+            style={{ position: "relative" }}
+          >
+            <input
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              className="form-control py-2"
+              type="text"
+              placeholder={
+                !load ? `جستجو در ${handleShowCategory(category)}` : null
+              }
+              aria-label="Search"
+              style={{
+                fontSize: "12px",
+                backgroundColor: "#E7E7E7",
+                border: "none",
+                color: "rgb(110 110 110)",
+                width: "300px",
+                paddingRight: "2rem",
+                paddingLeft: "2rem",
+              }}
+            />
+            {!load && (
+              <>
                 <button
-                  className="btn btn-remove-search"
-                  onClick={clearSearch}
+                  className="btn btn-search"
+                  onClick={() => setSearch(inputValue)}
                   type="button"
                   style={{
                     position: "absolute",
-                    left: "7px",
+                    right: "7px",
                     top: "50%",
                     padding: 0,
                     transform: "translateY(-50%)",
                   }}
                 >
-                  <FaTimes />
+                  <FaSearch />
                 </button>
-              )}
-            </>
-          )}
-        </form>
-        <button onClick={handleLogout} className="btn mx-4">
-          <BiExport
-            size="1.5rem"
-            style={{
-              transform: "rotate(90deg)",
-            }}
-          />
-          <span className="me-1">خروج</span>
-        </button>
-        <Link to="/create-post">
-          <ButtonPrimary text="ثبت آگهی" type="btnPrimary" />
-        </Link>
+                {inputValue.trim() !== "" && (
+                  <button
+                    className="btn btn-remove-search"
+                    onClick={clearSearch}
+                    type="button"
+                    style={{
+                      position: "absolute",
+                      left: "7px",
+                      top: "50%",
+                      padding: 0,
+                      transform: "translateY(-50%)",
+                    }}
+                  >
+                    <FaTimes />
+                  </button>
+                )}
+              </>
+            )}
+          </form>
+          <button onClick={handleLogout} className="btn mx-4 d-none d-sm-block">
+            <BiExport
+              size="1.5rem"
+              style={{
+                transform: "rotate(90deg)",
+              }}
+            />
+            <span className="me-1">خروج</span>
+          </button>
+          <Link to="/create-post">
+            <ButtonPrimary text="ثبت آگهی" type="btnPrimary" />
+          </Link>
+        </div>
       </div>
     </nav>
   );

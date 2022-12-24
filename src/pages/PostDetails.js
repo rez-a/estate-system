@@ -29,7 +29,7 @@ const PostDetails = () => {
   return (
     <>
       <div className={`row g-3 ${load ? "loading-skeleton" : ""}`}>
-        <div className="col-7">
+        <div className="col-lg-7 order-last order-lg-first col-12">
           <h5
             className={`post-title ${load ? "loading-title-post w-100" : ""}`}
           >
@@ -117,7 +117,7 @@ const PostDetails = () => {
           </div>
         </div>
         {load ? (
-          <div className="col-5 loading-skeleton">
+          <div className="col-lg-5 order-first order-lg-last col-12 loading-skeleton">
             <div
               className="w-100"
               style={{
@@ -127,7 +127,7 @@ const PostDetails = () => {
             ></div>
           </div>
         ) : (
-          <div className="col-5 position-relative d-flex flex-column justify-content-start align-items-center">
+          <div className="col-lg-5 order-first order-lg-last col-12 position-relative d-flex flex-column justify-content-start align-items-center">
             <img
               src={defaultImage}
               alt="defaultImage"

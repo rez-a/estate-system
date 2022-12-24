@@ -65,7 +65,7 @@ const EditPost = () => {
   }, [postEdited]);
   return (
     <div className="row g-3">
-      <form className="col-7">
+      <form className="col-lg-7 order-last order-lg-first">
         <div
           className={`row justify-content-between g-6 ${
             load.getPostLoad ? "loading-skeleton" : ""
@@ -89,7 +89,7 @@ const EditPost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="سند"
             name="document"
             labelCheckOut1="دارد"
@@ -103,7 +103,7 @@ const EditPost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="پارکینگ"
             name="parking"
             labelCheckOut1="دارد"
@@ -117,7 +117,7 @@ const EditPost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="انباری"
             name="warehouse"
             labelCheckOut1="دارد"
@@ -131,7 +131,7 @@ const EditPost = () => {
             }
           />
           <CheckOutPrimary
-            width="col-6"
+            width="col-sm-6 col-12"
             label="دسته بندی"
             name="category"
             labelCheckOut1="خرید"
@@ -151,7 +151,7 @@ const EditPost = () => {
             require={load.getPostLoad ? false : true}
             placeholder={load.getPostLoad ? "" : "مثلا 2"}
             value={isNaN(Number(postEdited.room)) ? "" : postEdited.room}
-            width="col-6"
+            width="col-sm-6 col-12"
             invalidText={
               load.getPostLoad
                 ? ""
@@ -187,7 +187,7 @@ const EditPost = () => {
                 ? "این فیلد الزامی است"
                 : ""
             }
-            width="col-6"
+            width="col-sm-6 col-12"
             setValue={(e) =>
               setPostEdited({ ...postEdited, build_in: e.target.value })
             }
@@ -197,7 +197,7 @@ const EditPost = () => {
             require={load.getPostLoad ? false : true}
             placeholder={load.getPostLoad ? "" : "مثلا 200"}
             value={isNaN(Number(postEdited.metrage)) ? "" : postEdited.metrage}
-            width="col-6"
+            width="col-sm-6 col-12"
             invalidText={
               load.getPostLoad
                 ? ""
@@ -232,7 +232,7 @@ const EditPost = () => {
                   ? "این فیلد الزامی است"
                   : ""
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               setValue={(e) =>
                 setPostEdited({
                   ...postEdited,
@@ -262,7 +262,7 @@ const EditPost = () => {
                   ? "این فیلد الزامی است"
                   : ""
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               setValue={(e) =>
                 setPostEdited({
                   ...postEdited,
@@ -276,7 +276,7 @@ const EditPost = () => {
             require={load.getPostLoad ? false : true}
             placeholder={load.getPostLoad ? "" : "مثلا 09302582971"}
             value={postEdited.number}
-            width="col-6"
+            width="col-sm-6 col-12"
             invalidText={
               load.getPostLoad
                 ? ""
@@ -301,14 +301,14 @@ const EditPost = () => {
                       postEdited.price * postEdited.metrage
                     ).toLocaleString()
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               disabled={true}
             />
           ) : postEdited.category === "mortgage" ? (
             <InputPrimary
               label="اجاره"
               value="0"
-              width="col-6"
+              width="col-sm-6 col-12"
               disabled={true}
             />
           ) : postEdited.category === "rent" ? (
@@ -332,7 +332,7 @@ const EditPost = () => {
                   ? "این فیلد الزامی است"
                   : ""
               }
-              width="col-6"
+              width="col-sm-6 col-12"
               setValue={(e) =>
                 setPostEdited({
                   ...postEdited,
@@ -353,7 +353,7 @@ const EditPost = () => {
           />
         </div>
       </form>
-      <div className="col-5">
+      <div className="col-lg-5 order-first order-lg-last">
         <img
           src={defaultImage}
           className="img-fluid"

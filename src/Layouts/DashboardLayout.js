@@ -47,14 +47,16 @@ const DashboardLayout = ({ children }) => {
               <Navbar />
             </header>
             <main>
-              <div className="container-fluid mt-3">
+              <div className="container-fluid container-xxl mt-3">
                 <div className="row">
                   <NewPostContext>
                     <EditPostLoads>
-                      <aside className="col-3">
+                      <aside className="col-xl-3 col-md-4 col-12">
                         <SideBar />
                       </aside>
-                      <main className="col-9 mb-3">{children}</main>
+                      <main className="col-xl-9 col-md-8 col-12 mb-3">
+                        {children}
+                      </main>
                     </EditPostLoads>
                   </NewPostContext>
                 </div>
