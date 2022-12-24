@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useContext } from "react";
+import Swal from "sweetalert2";
 import { Filter } from "../../../context/FilterContext";
 import { User } from "../../../context/UserContext";
 import Toast from "../../../helper/toast";
@@ -69,21 +70,33 @@ const MainSideBar = () => {
   }, [state]);
 
   const handleDeleteAll = async () => {
-    setLoadDeleteAll(true);
-    const data = await deleteAllPostServices();
-    if (data?.code === 200) {
-      userDispatch(deleteAllPost());
-      Toast.fire({
-        icon: "success",
-        title: "همه ی آگهی های شما با موفقیت حذف شدند",
-      });
-      setLoadDeleteAll(false);
-    } else {
-      Toast.fire({
-        icon: "info",
-        title: "حذف آگهی ها با مشکل مواجه شد!!",
-      });
-    }
+    Swal.fire({
+      title: "همه آگهی ها حذف شوند؟",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#A62626",
+      confirmButtonText: "بله ، حذف شوند",
+      cancelButtonText: "خیر",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setLoadDeleteAll(true);
+        const res = await deleteAllPostServices();
+        if (res?.code === 200) {
+          userDispatch(deleteAllPost());
+          Swal.fire({
+            icon: "success",
+            title: "همه آگهی ها با موفقیت حذف شدند!!",
+          });
+        } else {
+          Toast.fire({
+            icon: "error",
+            title: "مشکلی پیش آمد.آگهی ها حذف نشدند!!",
+          });
+        }
+        setLoadDeleteAll(false);
+      }
+    });
   };
 
   return (

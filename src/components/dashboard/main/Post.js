@@ -110,7 +110,7 @@ const Post = ({
                       {load
                         ? "__________"
                         : `ودیعه : ${
-                            mortgage.trim() === ""
+                            String(mortgage).trim() === ""
                               ? 0
                               : Number(mortgage).toLocaleString()
                           } تومان`}

@@ -28,6 +28,9 @@ const DashboardLayout = ({ children }) => {
         if (data?.code === "200") {
           dispatch(addUser(data));
           setLoad(false);
+        } else if (data?.posts?.length < 1) {
+          dispatch(addUser({ ...data, 0: { posts: [] } }));
+          setLoad(false);
         } else {
           Toast.fire({
             icon: "info",

@@ -50,7 +50,6 @@ const SideBar = () => {
           icon: "success",
           title: "آگهی با موفقیت ویرایش شد",
         });
-        setLoad({ ...editLoads, sendPostLoad: false });
         dispatch(editPost(postEdited));
         navigate(`/post-details/${id}`);
       } else {
@@ -59,6 +58,7 @@ const SideBar = () => {
           title: "مشکلی پیش آمده.آگهی ویرایش نشد",
         });
       }
+      setLoad({ ...editLoads, sendPostLoad: false });
     }
   };
 
@@ -77,7 +77,6 @@ const SideBar = () => {
           icon: "success",
           title: "آگهی با موفقیت ایجاد شد",
         });
-        setLoadNewPost(false);
         dispatch(addPost(newPost));
         navigate(`/post-details/${res.id}`);
         setNewPost({
@@ -103,6 +102,7 @@ const SideBar = () => {
           title: "مشکلی پیش آمده.آگهی ویرایش نشد",
         });
       }
+      setLoadNewPost(false);
     }
   };
 
